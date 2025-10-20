@@ -34,13 +34,13 @@
 <body>
   <canvas id="heart"></canvas>
   <h2>
-    💗 20-10 tới rồi 💗<br>
-    Chúc eiu của anh luôn vui vẻ, xinh đẹp, sức khỏe luôn dồi dào,<br>
-    thành công trong công danh sự nghiệp.<br>
-    Mong rằng chúng ta càng ngày càng thấu hiểu, yêu nhau nhiều hơn 💞<br>
-    Và mong tương lai chúng ta không chỉ là danh phận "người yêu",<br>
-    mà anh muốn đổi nó thành "vợ chồng" 💍<br><br>
-    💖 Happy Woman's Day 💖
+    💗 20/10 tới rồi 💗<br>
+    Chúc eiu của anh luôn vui vẻ, xinh đẹp và tràn đầy năng lượng.<br>
+    Chúc em luôn có thật nhiều sức khỏe, thành công trong công việc và sự nghiệp.<br>
+    Mong rằng chúng ta sẽ ngày càng thấu hiểu và yêu nhau nhiều hơn 💞<br>
+    Và anh mong rằng trong tương lai, chúng ta không chỉ là “người yêu” —<br>
+    mà anh sẽ gọi em là “vợ” 💍<br><br>
+    💖 Happy Woman’s Day! 💖
   </h2>
 
   <script>
@@ -88,14 +88,13 @@
       });
     }
 
-    // Mưa trái tim nhỏ
     const fallingHearts = [];
     const numFalling = 100;
 
     for (let i = 0; i < numFalling; i++) {
       fallingHearts.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * -canvas.height,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * -window.innerHeight,
         size: Math.random() * 6 + 2,
         speed: Math.random() * 2 + 1,
         color: `hsl(${Math.random() * 10 + 330}, 100%, 70%)`,
@@ -107,11 +106,10 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       time += 0.02;
 
-      // Nhịp tim
       const scale = 1 + 0.12 * Math.sin(time * 2);
-      const glow = 10 + 15 * Math.sin(time * 2); // ánh sáng nhấp nháy theo nhịp
+      const glow = 10 + 15 * Math.sin(time * 2);
 
-      // Vẽ tim chính
+      // Vẽ trái tim chính
       for (let i = 0; i < numParticles; i++) {
         const p = particles[i];
         const targetX = canvas.width / 2 + p.target.x * 15 * scale;
@@ -130,7 +128,7 @@
         ctx.fill();
       }
 
-      // Vẽ mưa trái tim
+      // Mưa trái tim
       for (let i = 0; i < numFalling; i++) {
         const f = fallingHearts[i];
         f.y += f.speed;
@@ -146,14 +144,14 @@
         ctx.fill();
       }
 
-      // Vẽ chữ T ❤️ V màu đỏ nhấp nháy theo nhịp tim
+      // Chữ T ❤️ V màu đỏ nhấp nháy theo nhịp tim
       const textScale = 1 + 0.15 * Math.sin(time * 2);
       ctx.save();
       ctx.font = `${40 * textScale}px 'Courier New', monospace`;
       ctx.textAlign = "center";
-      ctx.fillStyle = "#ff0000";          // màu đỏ
+      ctx.fillStyle = "#ff0000";
       ctx.shadowBlur = 15 * textScale;
-      ctx.shadowColor = "#ff0000";        // glow đỏ
+      ctx.shadowColor = "#ff0000";
       ctx.fillText("T ❤️ V", canvas.width / 2, canvas.height / 2 + 150);
       ctx.restore();
 
