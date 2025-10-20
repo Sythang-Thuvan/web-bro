@@ -88,14 +88,30 @@
       });
     }
 
+    // Mưa trái tim nhỏ
+    const fallingHearts = [];
+    const numFalling = 100;
+
+    for (let i = 0; i < numFalling; i++) {
+      fallingHearts.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * -canvas.height,
+        size: Math.random() * 6 + 2,
+        speed: Math.random() * 2 + 1,
+        color: `hsl(${Math.random() * 10 + 330}, 100%, 70%)`,
+      });
+    }
+
     let time = 0;
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       time += 0.02;
 
-      // Nhịp tim co giãn
-      const scale = 1 + 0.1 * Math.sin(time * 2);
+      // Nhịp tim
+      const scale = 1 + 0.12 * Math.sin(time * 2);
+      const glow = 10 + 15 * Math.sin(time * 2); // ánh sáng nhấp nháy theo nhịp
 
+      // Vẽ tim chính
       for (let i = 0; i < numParticles; i++) {
         const p = particles[i];
         const targetX = canvas.width / 2 + p.target.x * 15 * scale;
@@ -109,10 +125,37 @@
         ctx.beginPath();
         ctx.arc(p.x, p.y, s, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
-        ctx.shadowBlur = 15;
+        ctx.shadowBlur = glow;
         ctx.shadowColor = p.color;
         ctx.fill();
       }
+
+      // Vẽ mưa trái tim
+      for (let i = 0; i < numFalling; i++) {
+        const f = fallingHearts[i];
+        f.y += f.speed;
+        if (f.y > canvas.height) {
+          f.y = -10;
+          f.x = Math.random() * canvas.width;
+        }
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+        ctx.fillStyle = f.color;
+        ctx.shadowBlur = 5;
+        ctx.shadowColor = f.color;
+        ctx.fill();
+      }
+
+      // Vẽ chữ T ❤️ V nhấp nháy theo nhịp tim
+      const textScale = 1 + 0.15 * Math.sin(time * 2);
+      ctx.save();
+      ctx.font = `${40 * textScale}px 'Courier New', monospace`;
+      ctx.textAlign = "center";
+      ctx.fillStyle = "hsl(340, 100%, 70%)";
+      ctx.shadowBlur = 15 * textScale;
+      ctx.shadowColor = "hsl(340, 100%, 70%)";
+      ctx.fillText("T ❤️ V", canvas.width / 2, canvas.height / 2 + 150);
+      ctx.restore();
 
       requestAnimationFrame(animate);
     }
