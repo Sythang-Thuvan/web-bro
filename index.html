@@ -2,12 +2,12 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>💖 Trái tim ghép mảnh - Chúc em 20/10 vui vẻ 💖</title>
+  <title>💖 Happy Woman's Day 💖</title>
   <style>
     html, body {
       margin: 0;
       height: 100%;
-      background-color: black;
+      background-color: #000;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -20,17 +20,28 @@
     }
 
     h2 {
-      color: #ff7ca8;
+      color: #ffaadf;
       font-family: 'Courier New', monospace;
-      font-size: 24px;
+      font-size: 18px;
+      width: 85%;
+      text-align: center;
+      line-height: 1.7;
       margin-top: 20px;
-      text-shadow: 0 0 10px #ff4d88, 0 0 20px #ff3366;
+      text-shadow: 0 0 10px #ff66cc, 0 0 25px #ff3399;
     }
   </style>
 </head>
 <body>
   <canvas id="heart"></canvas>
-  <h2>💗 Chúc em 20/10 vui vẻ 💗</h2>
+  <h2>
+    💗 20-10 tới rồi 💗<br>
+    Chúc eiu của anh luôn vui vẻ, xinh đẹp, sức khỏe luôn dồi dào,<br>
+    thành công trong công danh sự nghiệp.<br>
+    Mong rằng chúng ta càng ngày càng thấu hiểu, yêu nhau nhiều hơn 💞<br>
+    Và mong tương lai chúng ta không chỉ là danh phận "người yêu",<br>
+    mà anh muốn đổi nó thành "vợ chồng" 💍<br><br>
+    💖 Happy Woman's Day 💖
+  </h2>
 
   <script>
     const canvas = document.getElementById("heart");
@@ -38,16 +49,16 @@
 
     function resize() {
       canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight * 0.8;
+      canvas.height = window.innerHeight * 0.7;
     }
     resize();
     window.addEventListener("resize", resize);
 
     const particles = [];
-    const numParticles = 600; // số lượng mảnh
+    const numParticles = 2500; // nhiều hơn để kín tim
     const heartPoints = [];
 
-    // Hàm tạo hình trái tim
+    // Hàm vẽ hình trái tim (chuẩn không ngược)
     function heartShape(t) {
       const x = 16 * Math.pow(Math.sin(t), 3);
       const y =
@@ -58,23 +69,26 @@
       return { x, y };
     }
 
-    // Tạo tọa độ các điểm của trái tim
+    // Tạo điểm trong tim
     for (let i = 0; i < numParticles; i++) {
-      const t = Math.random() * Math.PI * 2;
+      let t = Math.random() * Math.PI * 2;
+      let r = Math.pow(Math.random(), 0.35); // phủ đều hơn
       const p = heartShape(t);
-      heartPoints.push(p);
+      heartPoints.push({
+        x: p.x * r,
+        y: p.y * r,
+      });
     }
 
-    // Khởi tạo các mảnh
     for (let i = 0; i < numParticles; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const radius = Math.random() * 300 + 100;
+      const radius = Math.random() * 400 + 150;
       particles.push({
         x: canvas.width / 2 + Math.cos(angle) * radius,
         y: canvas.height / 2 + Math.sin(angle) * radius,
         target: heartPoints[i],
-        size: Math.random() * 2 + 1,
-        color: `hsl(${Math.random() * 20 + 340}, 100%, 60%)`,
+        size: Math.random() * 1.5 + 1,
+        color: `hsl(${Math.random() * 10 + 330}, 100%, 70%)`,
         phase: Math.random() * Math.PI * 2,
       });
     }
@@ -82,28 +96,22 @@
     let time = 0;
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      time += 0.015;
+      time += 0.02;
 
       for (let i = 0; i < numParticles; i++) {
         const p = particles[i];
+        const targetX = canvas.width / 2 + p.target.x * 15;
+        const targetY = canvas.height / 2 - p.target.y * 15;
 
-        // Tính vị trí mục tiêu (trái tim trung tâm)
-        const targetX =
-          canvas.width / 2 + p.target.x * 15 * Math.sin(time / 2);
-        const targetY =
-          canvas.height / 2 - p.target.y * 15 * Math.sin(time / 2);
-
-        // Di chuyển mượt
         p.x += (targetX - p.x) * 0.05;
         p.y += (targetY - p.y) * 0.05;
 
-        // Hiệu ứng nhịp đập nhẹ
-        const s = p.size * (1 + 0.2 * Math.sin(time * 3 + p.phase));
+        const s = p.size * (1 + 0.15 * Math.sin(time * 3 + p.phase));
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, s, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
-        ctx.shadowBlur = 20;
+        ctx.shadowBlur = 15;
         ctx.shadowColor = p.color;
         ctx.fill();
       }
