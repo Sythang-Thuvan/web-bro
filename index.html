@@ -27,6 +27,7 @@
       text-align: center;
       line-height: 1.7;
       margin-top: 20px;
+      margin-bottom: 60px; /* ✅ fix chữ bị che */
       text-shadow: 0 0 10px #ff66cc, 0 0 25px #ff3399;
     }
   </style>
@@ -58,6 +59,7 @@
     const numParticles = 2500;
     const heartPoints = [];
 
+    // Tạo hình trái tim bằng công thức toán học
     function heartShape(t) {
       const x = 16 * Math.pow(Math.sin(t), 3);
       const y =
@@ -75,6 +77,7 @@
       heartPoints.push({ x: p.x * r, y: p.y * r });
     }
 
+    // Particles tạo nên hình trái tim
     for (let i = 0; i < numParticles; i++) {
       const angle = Math.random() * Math.PI * 2;
       const radius = Math.random() * 400 + 150;
@@ -88,6 +91,7 @@
       });
     }
 
+    // Hiệu ứng mưa tim nhỏ
     const fallingHearts = [];
     const numFalling = 100;
 
@@ -128,7 +132,7 @@
         ctx.fill();
       }
 
-      // Mưa trái tim
+      // Vẽ mưa tim
       for (let i = 0; i < numFalling; i++) {
         const f = fallingHearts[i];
         f.y += f.speed;
@@ -144,7 +148,7 @@
         ctx.fill();
       }
 
-      // Chữ T ❤️ V màu đỏ nhấp nháy theo nhịp tim
+      // Chữ T ❤️ V nhấp nháy theo nhịp tim
       const textScale = 1 + 0.15 * Math.sin(time * 2);
       ctx.save();
       ctx.font = `${40 * textScale}px 'Courier New', monospace`;
